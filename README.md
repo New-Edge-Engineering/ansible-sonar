@@ -1,4 +1,4 @@
-# Ansible Ansible Role #
+# Ansible Sonar Role #
 
 Ansible role to install and configure sonar. Feedback, bug-reports, requests,
 is welcomed and can be done via
