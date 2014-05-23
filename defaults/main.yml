@@ -1,0 +1,7 @@
+---
+sonar_database_user: 'sonar'
+sonar_database_pass: 'sonar'
+sonar_database_type: 'hsqldb'
+sonar_databse_host:  'localhost'
+sonar_database_port: '5432'
+sonar_database_name: 'sonar'

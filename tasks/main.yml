@@ -1,0 +1,37 @@
+---
+# application installation
+- name: ensure python-pycurl is installed
+  apt: pkg=python-pycurl state=present
+
+- name: ensure sonar repository has been add
+  apt_repository: repo='deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/'
+
+- name: ensure sonar is at the latest version
+  apt: force=yes pkg=sonar state=latest
+  notify:
+  - restart sonar
+# application configuration
+- name: "Sonar | sonar user update (configuration part 1)"
+  lineinfile:
+    dest="/opt/sonar/conf/sonar.properties"
+    line="sonar.jdbc.username={{ sonar_database_user }}"
+    regexp="^sonar.jdbc.username"
+notify:
+  - restart sonar
+
+- name: "Sonar | sonar user password update (configuration part 2)"
+  lineinfile:
+    dest="/opt/sonar/conf/sonar.properties"
+    line="sonar.jdbc.password={{ sonar_database_pass }}"
+    regexp="^sonar.jdbc.password"
+  notify:
+  - restart sonar
+
+- name: "Sonar | sonar database connection update (configuration part 3)"
+  lineinfile:
+    dest="/opt/sonar/conf/sonar.properties"
+    line="sonar.jdbc.url=jdbc:postgresql://{{ sonar_databse_host }}:{{ sonar_database_port }}/{{ sonar_database_name }}"
+    regexp="^sonar.jdbc.url"
+  when: sonar_database_type == 'postgresql'
+  notify:
+  - restart sonar
