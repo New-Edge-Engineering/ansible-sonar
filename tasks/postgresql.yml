@@ -1,0 +1,49 @@
+---
+- name: Sonar - PostgreSQL | update database connection in configuration (configuration part 3)
+  lineinfile:
+    dest="/opt/sonar/conf/sonar.properties"
+    line="sonar.jdbc.url=jdbc:postgresql://{{ sonar_databse_host }}:{{ sonar_database_port }}/{{ sonar_database_name }}"
+    regexp="^sonar.jdbc.url"
+  notify:
+    - restart sonar
+  tags:
+    - sonar
+    - configuration
+    - postgresql
+
+- name: Sonar - PostgreSQL | update database driver in configuration (configuration part 4)
+  lineinfile:
+    dest="/opt/sonar/conf/sonar.properties"
+    regexp="^sonar.jdbc.driverClassName"
+    line="sonar.jdbc.driverClassName=org.postgresql.Driver"
+  notify:
+    - restart sonar
+  tags:
+    - sonar
+    - configuration
+    - postgresql
+
+- name: Sonar - PostgreSQL | update database verification in configuration (configuration part 5)
+  lineinfile:
+    dest="/opt/sonar/conf/sonar.properties"
+    regexp="^sonar.jdbc.validationQuery"
+    line="sonar.jdbc.validationQuery=select 1"
+  notify:
+    - restart sonar
+  tags:
+    - sonar
+    - configuration
+    - postgresql
+
+- name: Sonar | download postgreSQL jdbc driver
+  get_url:
+    dest=/opt/sonar/extensions/jdbc-driver/postgresql/postgresql-9.3-1101.jdbc3.jar
+    url="http://jdbc.postgresql.org/download/postgresql-9.3-1101.jdbc3.jar"
+    group=adm
+    mode=0655
+    owner=sonar
+  tags:
+    - sonar
+    - jdbc
+    - files
+    - postgresql

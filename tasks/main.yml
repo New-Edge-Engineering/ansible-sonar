@@ -42,14 +42,8 @@
     - sonar
     - configuration
 
-- name: "Sonar | sonar database connection update (configuration part 3)"
-  lineinfile:
-    dest="/opt/sonar/conf/sonar.properties"
-    line="sonar.jdbc.url=jdbc:postgresql://{{ sonar_databse_host }}:{{ sonar_database_port }}/{{ sonar_database_name }}"
-    regexp="^sonar.jdbc.url"
+- include: postgresql.yml
   when: sonar_database_type == 'postgresql'
-  notify:
-    - restart sonar
   tags:
     - sonar
-    - configuration
+    - postgresql
