@@ -35,6 +35,12 @@
     - configuration
     - postgresql
 
+- name: Sonar | create jdbc driver directory
+  file:
+    dest: /opt/sonar/extensions/jdbc-driver/postgresql
+    state: directory
+    owner: sonar
+
 - name: Sonar | download postgreSQL jdbc driver
   get_url:
     dest=/opt/sonar/extensions/jdbc-driver/postgresql/postgresql-9.3-1101.jdbc3.jar
