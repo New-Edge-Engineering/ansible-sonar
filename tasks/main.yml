@@ -6,6 +6,11 @@
     - sonar
     - packages
 
+# version check
+# if upgraded then back up database
+# delete /op/sonar/data/es directory
+
+
 - name: ensure sonar repository has been add
   apt_repository: repo='deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/'
   tags:
