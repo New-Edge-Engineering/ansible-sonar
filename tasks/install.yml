@@ -1,0 +1,29 @@
+---
+# application installation
+- name: ensure python-pycurl is installed
+  apt: pkg=python-pycurl state=present
+  tags:
+    - sonar
+    - packages
+
+# version check
+# if upgraded then back up database
+# delete /op/sonar/data/es directory
+
+
+- name: ensure sonar repository has been add
+  apt_repository: repo='deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/'
+  tags:
+    - sonar
+    - packages
+
+- name: ensure sonar is at the latest version
+  apt:
+    force: yes
+    pkg: 'sonar={{ sonar_version }}'
+    state: present
+  notify:
+    - restart sonar
+  tags:
+    - sonar
+    - packages

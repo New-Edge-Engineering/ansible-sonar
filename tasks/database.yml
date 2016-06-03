@@ -1,0 +1,28 @@
+---
+- name: "Sonar | sonar user update (configuration part 1)"
+  lineinfile:
+    dest="/opt/sonar/conf/sonar.properties"
+    line="sonar.jdbc.username={{ sonar_database_user }}"
+    regexp="^sonar.jdbc.username"
+  notify:
+    - restart sonar
+  tags:
+    - sonar
+    - configuration
+
+- name: "Sonar | sonar user password update (configuration part 2)"
+  lineinfile:
+    dest="/opt/sonar/conf/sonar.properties"
+    line="sonar.jdbc.password={{ sonar_database_pass }}"
+    regexp="^sonar.jdbc.password"
+  notify:
+    - restart sonar
+  tags:
+    - sonar
+    - configuration
+
+- include: postgresql.yml
+  when: sonar_database_type == 'postgresql'
+  tags:
+    - sonar
+    - postgresql
