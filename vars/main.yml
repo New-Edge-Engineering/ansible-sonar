@@ -7,3 +7,5 @@ sonar_ldap_file: sonar-ldap-plugin-1.5.jar # to support change in version number
 sonar_ldap_download: "https://sonarsource.bintray.com/Distribution/sonar-ldap-plugin/{{ sonar_ldap_file }}"
 sonar_user: sonar
 sonar_group: nogroup
+sonar_postgresql_driver_file: postgresql-9.3-1103.jdbc3.jar # to support change in version numbers.
+sonar_postgresql_driver_download: "https://jdbc.postgresql.org/download/{{ sonar_postgresql_driver_file }}"

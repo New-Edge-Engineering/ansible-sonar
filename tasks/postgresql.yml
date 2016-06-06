@@ -43,11 +43,11 @@
 
 - name: Sonar | download postgreSQL jdbc driver
   get_url:
-    dest=/opt/sonar/extensions/jdbc-driver/postgresql/postgresql-9.3-1101.jdbc3.jar
-    url="http://jdbc.postgresql.org/download/postgresql-9.3-1101.jdbc3.jar"
-    group=adm
-    mode=0655
-    owner=sonar
+    dest: "/opt/sonar/extensions/jdbc-driver/postgresql/{{ sonar_postgresql_driver_file }}"
+    url: "{{ sonar_postgresql_driver_download }}"
+    group: adm
+    mode: 0655
+    owner: sonar
   tags:
     - sonar
     - jdbc
