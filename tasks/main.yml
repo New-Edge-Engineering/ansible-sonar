@@ -1,5 +1,8 @@
 ---
-- include: install.yml
-- include: database.yml
-- include: ldap.yml
+- import_tasks: install_via_apt.yml
+  when: ansible_pkg_mgr == "apt"
+- import_tasks: install_via_yum.yml
+  when: ansible_pkg_mgr == "yum"
+- import_tasks: database.yml
+- import_tasks: ldap.yml
   when: sonar_ldap

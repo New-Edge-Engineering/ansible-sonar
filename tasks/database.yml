@@ -21,7 +21,7 @@
     - sonar
     - configuration
 
-- include: postgresql.yml
+- import_tasks: postgresql.yml
   when: sonar_database_type == 'postgresql'
   tags:
     - sonar

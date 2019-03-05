@@ -1,0 +1,89 @@
+---
+
+- name: Install supporting packages
+  package:
+    name: "{{ item }}"
+  with_items:
+    - unzip
+
+- name: Create sonar group
+  group:
+    name: "{{ sonar_group }}"
+    system: yes
+
+- name: Create sonar user
+  user:
+    name: "{{ sonar_user }}"
+    group: "{{ sonar_group }}"
+    createhome: False
+    system: True
+
+- name: Extract sonarqube zip file
+  unarchive:
+    src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-{{ sonar_version }}.zip
+    dest: /opt/
+    owner: "{{ sonar_user }}"
+    group: "{{ sonar_group }}"
+    remote_src: yes
+  tags:
+    - sonar
+    - install
+
+- name: Link version to sonar
+  file:
+    src: /opt/sonarqube-{{ sonar_version }}
+    dest: /opt/sonar
+    owner: "{{ sonar_user }}"
+    group: "{{ sonar_group }}"
+    state: link
+  tags:
+    - sonar
+    - install
+
+- name: Link executable to path
+  file:
+    src: /opt/sonar/bin/linux-x86-64/sonar.sh
+    dest: /usr/bin/sonar
+    state: link
+  tags:
+    - sonar
+    - install
+
+- name: Create service file
+  copy:
+    content: |
+      #!/bin/sh
+      #
+      # rc file for SonarQube
+      #
+      # chkconfig: 345 96 10
+      # description: SonarQube system (www.sonarsource.org)
+      #
+      ### BEGIN INIT INFO
+      # Provides: sonar
+      # Required-Start: $network
+      # Required-Stop: $network
+      # Default-Start: 3 4 5
+      # Default-Stop: 0 1 2 6
+      # Short-Description: SonarQube system (www.sonarsource.org)
+      # Description: SonarQube system (www.sonarsource.org)
+      ### END INIT INFO
+
+      USER=sonar
+
+      su $USER -c "/usr/bin/sonar $*"
+    dest: /etc/init.d/sonar
+    mode: 0755
+  tags:
+    - sonar
+    - install
+
+- name: Enable service for automatic start
+  service:
+    name: sonar
+    enabled: yes
+  notify:
+    - restart sonar
+  tags:
+    - sonar
+    - install

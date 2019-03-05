@@ -1,10 +1,10 @@
 ---
-sonar_version: 5.3
+sonar_version: 7.6
 sonar_dir: /opt/sonar
 sonar_plugins_dir: "{{ sonar_dir }}/extensions/plugins"
 sonar_conf_file: "{{ sonar_dir }}/conf/sonar.properties"
-sonar_ldap_file: sonar-ldap-plugin-1.5.jar # to support change in version numbers.
-sonar_ldap_download: "https://sonarsource.bintray.com/Distribution/sonar-ldap-plugin/{{ sonar_ldap_file }}"
+sonar_ldap_file: sonar-ldap-plugin-2.2.0.608.jar # to support change in version numbers.
+sonar_ldap_download: "https://binaries.sonarsource.com/Distribution/sonar-ldap-plugin/{{ sonar_ldap_file }}"
 sonar_user: sonar
 sonar_group: nogroup
 sonar_postgresql_driver_file: postgresql-9.3-1103.jdbc3.jar # to support change in version numbers.
